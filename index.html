@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js
+  "></script>
+  </head>
+  <body>
+    <div class="content">
+      <img
+        src="https://crisgon.github.io/pokedex/src/images/logo.png
+        "
+        alt="logotipo pokemon"
+      />
+      <div id="items"></div>
+      <div id="buttons"></div>
+    </div>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-baby">
+          <!--Detalhes do pokemon-->
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var defaultUrl = "https://pokeapi.co/api/v2/pokemon ";
+    var modal = document.getElementById("myModal");
+
+    getPokemons(defaultUrl);
+
+    function getPokemons(url) {
+      return axios({
+        method: "GET",
+        url,
+        data: {
+          limit: 20,
+        },
+      }).then((response) => {
+        createItems(response.data.results);
+        createButton(response.data);
+      });
+    }
+
+    function getPokemon(url) {
+      return axios({
+        method: "GET",
+        url,
+      }).then((response) => {
+        console.log(response.data);
+        openModal();
+      });
+    }
+
+    function createItems(data) {
+      const div = document.getElementById("items");
+      div.innerHTML = "";
+      for (let item of data) {
+        const d = document.createElement("div");
+        d.setAttribute("class", "item");
+        d.append(createTag("p", `${item.name.toUpperCase()}`));
+        d.addEventListener("click", function () {
+          getPokemons(defaultUrl + `/$(item.name`);
+        });
+        div.append(d);
+      }
+    }
+
+    function createButtons(data) {
+      const div = document.getElementById("buttons");
+      div.innerHTML = "";
+
+      if (data.previous) {
+        div.append(createButton("Anterior", data.previous));
+      }
+      if (data.next) {
+        div.append(createButton("Próximo", data.next));
+      }
+    }
+
+    function createTag(type, text) {
+      const tag = document.createElement(type);
+      const value = document.createTextNode(text);
+      tag.append(value);
+      return tag;
+    }
+
+    function createButton(name, url) {
+      const b = createTag("button", name);
+      const arrUrl = url.split("&")[0] + "&limit-20";
+      b.setAttribute("class", "btn");
+      b.addEventListener(
+        "click",
+        function () {
+          getPokemons(url);
+        },
+        false
+      );
+      return b;
+    }
+
+    function populateModalContent(item) {
+      const div = document.getElementsByClassName("modal-body")[0];
+      div.innerHTML = "";
+
+      const h3 = createtag("h3", item.name.toUpperCase());
+
+      const divImg = createTag("div", "");
+      divImg.setAttribute("class", "modal-div-img");
+
+      const frontImg = createTag("img", "");
+      frontImg.setAttribute("src", item.sprites.front_default);
+
+      const backImg = createTag("img", "");
+      backImg.setAttribute("src", item.sprites.back_default);
+
+      divImg.append(frontImg);
+      divImg.append(backImg);
+      div.append(h3);
+      div.append(divImg);
+    }
+
+    function openModal() {
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(to right, #155799, #159957);
+    }
+    .content {
+      text-align: center;
+      color: white;
+    }
+    .content img {
+      max-width: 15%;
+      max-height: 15%;
+    }
+    #items {
+      margin: 0px 80px 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit), minmax(350px, auto);
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 4px;
+    }
+    .item {
+      width: 90%;
+      max-width: 350px;
+      height: 100px;
+      margin: 20px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      background: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+    .btn {
+      display: inline-block;
+      padding: 20px 30px;
+      margin: 15px;
+      background-color: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      color: #000000;
+      font-size: 14px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      width: 50%;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #000;
+      border-radius: 20px;
+    }
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-div-img img {
+      min-width: 150px;
+      min-height: 150px;
+    }
+  </style>
+</html>
