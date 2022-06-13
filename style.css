@@ -16,7 +16,7 @@ body {
   margin: 0px 80px 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit), minmax(350px, auto);
-  justify-content: center;
+  justify-items: center;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 4px;
@@ -26,7 +26,7 @@ body {
   width: 90%;
   max-width: 350px;
   height: 100px;
-  margin: 20px 8px;
+  margin: 20px 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ body {
 .close {
   color: #aaaaaa;
   float: right;
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
 }
 
