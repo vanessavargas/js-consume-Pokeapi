@@ -1,4 +1,4 @@
-var defaultUrl = "https://pokeapi.co/api/v2/pokemon ";
+var defaultUrl = "https://pokeapi.co/api/v2/pokemon";
 var modal = document.getElementById("myModal");
 
 getPokemons(defaultUrl);
@@ -12,7 +12,7 @@ function getPokemons(url) {
     },
   }).then((response) => {
     createItems(response.data.results);
-    createButton(response.data);
+    createButtons(response.data);
   });
 }
 
@@ -21,7 +21,7 @@ function getPokemon(url) {
     method: "GET",
     url,
   }).then((response) => {
-    console.log(response.data);
+    populateModalContent(response.data);
     openModal();
   });
 }
@@ -34,7 +34,7 @@ function createItems(data) {
     d.setAttribute("class", "item");
     d.append(createTag("p", `${item.name.toUpperCase()}`));
     d.addEventListener("click", function () {
-      getPokemons(defaultUrl + `/$(item.name`);
+      getPokemon(defaultUrl + `/${item.name}`);
     });
     div.append(d);
   }
@@ -47,6 +47,7 @@ function createButtons(data) {
   if (data.previous) {
     div.append(createButton("Anterior", data.previous));
   }
+
   if (data.next) {
     div.append(createButton("Próximo", data.next));
   }
@@ -61,7 +62,7 @@ function createTag(type, text) {
 
 function createButton(name, url) {
   const b = createTag("button", name);
-  const arrUrl = url.split("&")[0] + "&limit-20";
+  const arrUrl = url.split("&")[0] + "&limit=20";
   b.setAttribute("class", "btn");
   b.addEventListener(
     "click",
@@ -77,7 +78,7 @@ function populateModalContent(item) {
   const div = document.getElementsByClassName("modal-body")[0];
   div.innerHTML = "";
 
-  const h3 = createtag("h3", item.name.toUpperCase());
+  const h3 = createTag("h3", item.name.toUpperCase());
 
   const divImg = createTag("div", "");
   divImg.setAttribute("class", "modal-div-img");
