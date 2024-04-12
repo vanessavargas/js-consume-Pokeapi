@@ -1,13 +1,30 @@
-# Sobre o projeto
+# About
 
-Projeto realizado durante a aula de Javascript da Trilha Fullstack do Bootcamp Use Academy
+This project involves consuming the Pokeapi with JavaScript, developed in 2022
 
-## Layout da aplicação
+## Project Layout
 
 ![Mockup](https://github.com/VanessaVargas/projeto-pokemon/blob/master/layout.jpg)
 
-# Tecnologias utilizadas
+### Technologies Used
 
 - HTML
 - CSS
 - JavaScript
+
+### Get Started
+
+To get started with the project:
+
+ - Clone the repository:
+
+```
+git clone https://github.com/vanessavargas/projeto-pokemon.git
+```
+
+- Navigate to the project directory:
+```
+cd projeto-pokemon
+```
+
+- Open the ``` index.html ``` file in your preferred web browser to interact with the application.
